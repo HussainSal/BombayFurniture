@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#22443a"/>
+  <g fill="none" stroke="#d7b57a">
+    <path d="M12 58V27a20 20 0 0 1 40 0v31" stroke-width="2.2"/>
+    <path d="M24 27a8 8 0 0 1 16 0" stroke-width="1.6"/>
+    <path d="M32 19v-5M26.3 21.3l-3-3M37.7 21.3l3-3" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+  <text x="32" y="50" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="17" fill="#f5efe3">BF</text>
+</svg>

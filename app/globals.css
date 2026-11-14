@@ -1,0 +1,256 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Bombay Deco — ivory paper, bottle green, brass and oxblood.
+ * Performance rules: no blur filters, no backdrop-filter, no infinite animations.
+ * Motion is CSS-only and switched off for prefers-reduced-motion.
+ */
+@layer base {
+  :root {
+    --background: 39 45% 93%; /* ivory paper  #F5EFE3 */
+    --surface: 38 36% 88%; /* aged paper   #EBE2D0 */
+    --card: 40 50% 97%; /* #FBF8F2 */
+    --foreground: 30 14% 11%; /* ink          #201C17 */
+    --muted: 38 30% 85%;
+    --muted-foreground: 32 12% 36%; /* #67604F — 5.6:1 on ivory */
+    --border: 37 28% 76%; /* #D3C6AC */
+    --input: 37 24% 70%;
+    --ring: 152 33% 22%;
+    --primary: 152 33% 20%; /* bottle green #22443A */
+    --primary-foreground: 40 50% 96%;
+    --forest: 152 28% 11%; /* deep green   #142520 */
+    --brass: 36 42% 50%; /* ornaments    #B58C4A */
+    --brass-ink: 34 48% 33%; /* brass text   #7C5A2C — 5:1 on ivory */
+    --brass-light: 38 55% 68%; /* brass on dark green */
+    --oxblood: 6 50% 30%; /* #73302A */
+    --ivory: 40 50% 96%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background font-sans text-[17px] leading-relaxed text-foreground;
+    /* Fine paper grain — a single 160px tile, rasterised once */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .18 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif font-normal tracking-tight text-foreground;
+  }
+
+  ::selection {
+    background: hsl(var(--brass) / 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  .section {
+    @apply py-20 md:py-28;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-[0.3em] text-brass-ink;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2.5 px-7 py-4 text-[12px] font-medium uppercase tracking-[0.2em] transition-colors duration-300 disabled:pointer-events-none disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground hover:bg-forest;
+  }
+  .btn-outline {
+    @apply btn border border-foreground/80 text-foreground hover:bg-foreground hover:text-background;
+  }
+  .btn-brass {
+    @apply btn bg-brass-light text-forest hover:bg-ivory;
+  }
+  .btn-ghost-light {
+    @apply btn border border-ivory/50 text-ivory hover:bg-ivory hover:text-forest;
+  }
+
+  .link-underline {
+    @apply relative inline-flex min-h-11 items-center gap-2 text-[12px] font-medium uppercase tracking-[0.2em] text-foreground;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute bottom-2 left-0 h-px w-full origin-left bg-brass transition-transform duration-300;
+  }
+  @media (hover: hover) {
+    .link-underline:hover::after {
+      transform: scaleX(0.4);
+    }
+  }
+
+  /* Double-rule frame, a staple of Deco print work */
+  .frame {
+    @apply relative border border-border bg-card;
+  }
+  .frame::before {
+    content: "";
+    @apply pointer-events-none absolute inset-1.5 border border-border/70;
+  }
+
+  /* Marine Drive arch */
+  .arch {
+    border-radius: 999px 999px 0 0;
+  }
+
+  /* 16px minimum: iOS Safari zooms the page when focusing smaller inputs */
+  .field {
+    @apply w-full border border-input bg-card px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/70 transition-colors focus:border-primary focus:outline-none;
+  }
+
+  .label {
+    @apply mb-2 block text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sunburst {
+    background-image: repeating-conic-gradient(from 270deg at 50% 100%, hsl(var(--brass) / 0.13) 0deg 1deg, transparent 1deg 9deg);
+  }
+}
+
+/* ── CSS-only motion ───────────────────────────────────────────── */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* One-off entrance on page load (hero only) */
+.rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Scroll reveal: runs on the compositor via scroll-driven animations.
+   Browsers without support simply show the content — no JS involved. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+/* Fade/slide panels used by the drawer and modal */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+.animate-sheet-in {
+  animation: sheet-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Range input */
+input[type="range"].range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: hsl(var(--input));
+}
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  background: hsl(var(--primary));
+  border: 2px solid hsl(var(--background));
+  box-shadow: 0 0 0 1px hsl(var(--primary));
+  cursor: pointer;
+}
+input[type="range"].range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 0;
+  transform: rotate(45deg);
+  background: hsl(var(--primary));
+  border: 2px solid hsl(var(--background));
+  cursor: pointer;
+}
+
+/* Pages with a sticky mobile action bar hide the floating chat button and
+   leave room under the footer so the bar never covers content. */
+@media (max-width: 1023px) {
+  body:has([data-mobile-bar]) .wa-float {
+    display: none;
+  }
+  body:has([data-mobile-bar]) footer {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Native <details> disclosure marker off — we draw our own */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
